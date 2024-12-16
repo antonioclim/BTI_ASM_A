@@ -1,0 +1,33 @@
+;Scrie?i un program care stocheaz? ?i afi?eaz? un mesaj.
+org 100h       ; Program pentru un fi?ier .com (executabil mic)
+
+;-------------------------
+; Ini?ializarea segmentului de date
+;-------------------------
+mov ax, @data  ; Setam segmentul de date
+mov ds, ax     ; DS = ax (segmentul pentru accesarea datelor)
+
+;-------------------------
+; Afi?area mesajului
+;-------------------------
+lea dx, mesaj  ; Adresa de început a ?irului este încarcata în DX
+mov ah, 09h    ; Func?ia DOS pentru afi?area unui ?ir de caractere (AH = 09h)
+int 21h        ; Apeleaza func?ia DOS pentru afi?are
+
+;-------------------------
+; Terminarea programului
+;-------------------------
+mov ah, 4Ch    ; Func?ia DOS pentru terminare
+int 21h        ; Termina programul
+
+;-------------------------
+; Segmentul de date
+;-------------------------
+data segment
+mesaj db 'Salutare! Acesta este un mesaj in ASM.$' ; ?irul de caractere, terminat cu `$`
+data ends
+
+
+
+
+; [SOURCE]: C:\EMU8086\MySource\A91_Mesaj_simplu.asm
