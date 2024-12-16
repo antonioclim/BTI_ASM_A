@@ -1,0 +1,56 @@
+; Implementa?i un cod pentru a detecta daca arhitectura sistemului este little-endian sau big-endian.
+org 100h            ; Program pentru un fi?ier .com (executabil mic)
+
+;-------------------------
+; Ini?ializarea segmentului de date
+;-------------------------
+mov ax, @data       ; Încarcam segmentul de date în AX
+mov ds, ax          ; Configuram DS pentru a accesa variabilele din data segment
+
+;-------------------------
+; Verificarea endianness
+;-------------------------
+mov ax, 1234h       ; Ini?ializam AX cu o valoare cunoscuta (0x1234)
+mov [test_var], ax  ; Stocam valoarea în memoria variabilei `test_var`
+
+mov si, offset test_var ; Mutam adresa variabilei în SI
+mov al, [si]        ; Încarcam primul byte al variabilei (LSB)
+mov ah, [si+1]      ; Încarcam al doilea byte al variabilei (MSB)
+
+;-------------------------
+; Compararea valorilor
+;-------------------------
+cmp al, 34h         ; Verificam daca primul byte este LSB (0x34)
+jne big_endian      ; Daca nu este, sistemul este big-endian
+lea dx, little_msg  ; Daca este egal, sistemul este little-endian
+jmp display_result
+
+big_endian:
+lea dx, big_msg     ; Sistemul este big-endian
+
+;-------------------------
+; Afi?area rezultatului
+;-------------------------
+display_result:
+mov ah, 09h         ; Func?ia DOS pentru afi?area unui ?ir de caractere
+int 21h             ; Afi?am mesajul corespunzator
+
+;-------------------------
+; Terminarea programului
+;-------------------------
+mov ah, 4Ch         ; Func?ia DOS pentru terminarea programului
+int 21h             ; Terminam programul
+
+;-------------------------
+; Segmentul de date
+;-------------------------
+data segment
+test_var dw ?           ; Variabila pentru testarea endianness
+little_msg db 'Sistemul este LITTLE-ENDIAN!$' ; Mesaj pentru little-endian
+big_msg db 'Sistemul este BIG-ENDIAN!$'       ; Mesaj pentru big-endian
+data ends
+
+
+
+
+; [SOURCE]: C:\EMU8086\MySource\A92_Verificare_endianness.asm
