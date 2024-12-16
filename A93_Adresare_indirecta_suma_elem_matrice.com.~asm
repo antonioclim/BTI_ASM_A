@@ -1,0 +1,41 @@
+;Realiza?i o suma a tuturor elementelor dintr-o matrice utilizând adresare indirecta
+org 100h       ; Program pentru un fi?ier .com (executabil mic)
+
+;-------------------------
+; Ini?ializarea segmentului de date
+;-------------------------
+mov ax, @data  ; Ini?ializam segmentul de date
+mov ds, ax     ; Configuram DS pentru a accesa variabilele din data segment
+
+;-------------------------
+; Calcularea sumei fara bucla
+;-------------------------
+mov ax, [matrix]      ; Adauga primul element (10) în AX
+add ax, [matrix+2]    ; Adauga al doilea element (20)
+add ax, [matrix+4]    ; Adauga al treilea element (30)
+add ax, [matrix+6]    ; Adauga al patrulea element (40)
+add ax, [matrix+8]    ; Adauga al cincilea element (50)
+
+;-------------------------
+; Stocarea rezultatului
+;-------------------------
+mov suma, ax          ; Salvam suma calculata în variabila `suma`
+
+;-------------------------
+; Terminarea programului
+;-------------------------
+mov ah, 4Ch           ; Func?ia DOS pentru terminarea programului
+int 21h               ; Terminam programul
+
+;-------------------------
+; Segmentul de date
+;-------------------------
+data segment
+matrix dw 10, 20, 30, 40, 50 ; Matrice de 5 elemente (WORD-uri)
+suma dw ?                    ; Variabila unde salvam suma
+data ends
+
+
+
+
+; [SOURCE]: C:\EMU8086\MySource\A93_Adresare_indirecta_suma_elem_matrice.asm
